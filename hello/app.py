@@ -28,7 +28,28 @@ def cantor(currency, amount):
     return "{} - {}".format(currency, amount)
 
 
+@app.route('/exchange')
+def exchange():
 
+    body = '''
+    <form id="exchange_form" action="/exchange-proceed" method="POST">
+        <label for="currency">Currency</label>
+        <input type="text" id="currency" name="currency" value="EUR"><br>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" value="100"><br>
+        <input type="submit" value="Zatwierdź">
+    </form>'''
+    return body
+
+
+@app.route('/exchange-proceed', methods=["POST"])
+def exchange_proceed():
+    if request.method == "POST":
+        currency = request.form["currency"] or None
+        amount = request.form["amount"] or None
+        if not currency or not amount:
+            return "Please send proper form"
+        return f"{currency} - {amount}"
 
 
 if __name__ == "__main__":
