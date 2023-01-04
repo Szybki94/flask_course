@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, url_for
 
 
 app = Flask(__name__)
@@ -7,15 +7,12 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 
-    color = "black"
-    style = "normal"
-    if 'color' in request.args:
-        color = request.args['color']
-    if 'style' in request.args:
-        style = request.args['style']
-    print(color, style)
-    return f'''<h1 style="color: {color};font-style: {style};">Hello world</h1>
-    and __name__ is: {__name__}'''
+    menu = f'''
+        <a href="{ url_for('exchange') }"> Currency exchange</a><br>
+        <a href="{ url_for('cantor', currency='GBP', amount=50, _external=True) }">Exchange 50GBP</a>
+'''
+
+    return menu
 
 
 @app.route('/about')
