@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for
+from flask import Flask, redirect,  request, url_for
 
 
 app = Flask(__name__)
@@ -45,6 +45,8 @@ def exchange():
         amount = request.form["amount"] or None
         if not currency or not amount:
             return "Please send proper form"
+        elif currency == "0":
+            return redirect(url_for('index'))
         return f"{currency} - {amount}"
 
 
