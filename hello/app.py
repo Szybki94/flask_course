@@ -9,7 +9,8 @@ def index():
 
     menu = f'''
         <a href="{ url_for('exchange') }"> Currency exchange</a><br>
-        <a href="{ url_for('cantor', currency='GBP', amount=50, _external=True) }">Exchange 50GBP</a>
+        <a href="{ url_for('cantor', currency='GBP', amount=50, _external=True) }">Exchange 50GBP</a><br>
+        <img src="{ url_for('static', filename='apu_the_frog.jpg') }" height="300">
 '''
 
     return menu
