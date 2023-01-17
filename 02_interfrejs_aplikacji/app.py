@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, flash, render_template, url_for, request
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret'  # <-- ale tak się nie robi, nie trzyma się tego bezpośrednio w apce
 
 
 # CLASSES
@@ -20,11 +21,13 @@ class CantorOffer:
 
     def __init__(self):
         self.currencies = []
+        self.denied_codes = []
 
     def load_offer(self):
         self.currencies.append(Currency('USD', 'Dollar', 'dolar.jpg'))
         self.currencies.append(Currency('EUR', 'Euro', 'euro.jpg'))
         self.currencies.append(Currency('JPY', 'Yen', 'NOT_IMPLEMENTED'))
+        self.denied_codes.append('USD')
 
     def get_by_code(self, code):
         for currency in self.currencies:
@@ -49,6 +52,12 @@ def exchange():
         return render_template('exchange.html', offer=offer)
     elif request.method == 'POST':
         currency = request.form['currency']
+        if currency in offer.denied_codes:
+            flash('The currency {}, CANNOT BE ACCEPTED'.format(currency))
+        elif currency == "unknown":
+            flash('The currency {}, CANNOT BE ACCEPTED'.format(currency))
+        else:
+            flash('The currency {} is ACCEPTABLE - request is OK'.format(currency))
         amount = request.form['amount']
         print(offer.get_by_code(currency))
         return render_template('exchange_results.html', currency=currency, amount=amount,
