@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>Cantor - results</title>
+  </head>
+
+  <body>
+        <h1>You selected {{ currency }} in amount: {{ amount }}</h1>
+        {% if currency_info.code != 'unknown' %}
+            <img src="{{ url_for('static', filename=currency_info.flag) }}" height="300">
+        {% else %}
+            <img src="{{ url_for('static', filename='pirate.jpg') }}" height="300">
+        {% endif %}
+  </body>
+</html>
